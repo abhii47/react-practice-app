@@ -20,6 +20,10 @@ export const Post = () => {
         return <h2>Loading posts...</h2>
     }
 
+    if(posts.length === 0){
+        return <h2>No posts</h2>
+    }
+
     const handleAddPost = (title:string, content:string) => {
         const newPost = {
             id: posts.length + 1,
