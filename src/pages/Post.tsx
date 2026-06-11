@@ -4,14 +4,18 @@ import { PostCard } from "../components/PostCards";
 import LikeButton from "../components/LikeButton";
 import { Link } from "react-router-dom";
 import { AddPostForm } from "../components/Forms/AddPostForm";
+import { SearchBox } from "../components/Forms/SearchBox";
 
 export const Post = () => {
-    const [posts, setposts] = useState(intialPosts.map(post => ({...post, likes: 0})));
+    const [allPosts, setAllPosts] = useState(intialPosts.map(post => ({...post, likes: 0})));
+    const [posts, setposts] = useState(allPosts);
     const [loading, setloading] = useState(true);
 
     useEffect(() => {
         setTimeout(() => {
-            setposts(intialPosts.map(post => ({...post, likes:0 })))
+            const loadedPosts = intialPosts.map(post => ({...post, likes: 0}))
+            setAllPosts(loadedPosts);
+            setposts(loadedPosts);
             setloading(false);
         },1000)
     }, []);
@@ -26,22 +30,41 @@ export const Post = () => {
 
     const handleAddPost = (title:string, content:string) => {
         const newPost = {
-            id: posts.length + 1,
+            id: allPosts.length + 1,
             title,
             content,
             comments: [],
             likes: 0
         }
-        setposts([...posts, newPost]);
+        const updated = [...allPosts, newPost]
+        setAllPosts(updated)
+        setposts(updated)
+    }
+
+    const handleSearch = (term:string) => {
+        if(!term){
+            setposts(allPosts) // reset if empty
+        } else {
+            const filtered = allPosts.filter(post =>
+                post.title.toLowerCase().includes(term.toLowerCase()) ||
+                post.content.toLowerCase().includes(term.toLowerCase())
+            )
+            setposts(filtered)
+        }
     }
     const handleLikePost = (id:number) => {
-        setposts(posts.map(post => post.id === id ? {...post, likes: post.likes + 1 } : post))
+        const updated = allPosts.map(post => post.id === id ? {...post, likes: post.likes + 1 } : post)
+        setAllPosts(updated)
+        setposts(updated)    
     }
     const handleDeletePost = (id:number) => {
-        setposts(posts.filter(post => post.id !== id));
+        const updated = allPosts.filter(post => post.id !== id)
+        setAllPosts(updated)
+        setposts(updated)
     }
     return (
         <div className="Post-Container">
+            <SearchBox onSearch={handleSearch} />
             <AddPostForm onAddPost={handleAddPost} />
             {posts.map((post) => {
                 return (
