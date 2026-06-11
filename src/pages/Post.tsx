@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { posts as intialPosts } from "../data/posts"
 import { PostCard } from "../components/PostCards";
 import LikeButton from "../components/LikeButton";
@@ -7,6 +7,19 @@ import { AddPostForm } from "../components/Forms/AddPostForm";
 
 export const Post = () => {
     const [posts, setposts] = useState(intialPosts.map(post => ({...post, likes: 0})));
+    const [loading, setloading] = useState(true);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setposts(intialPosts.map(post => ({...post, likes:0 })))
+            setloading(false);
+        },1000)
+    }, []);
+
+    if(loading) {
+        return <h2>Loading posts...</h2>
+    }
+
     const handleAddPost = (title:string, content:string) => {
         const newPost = {
             id: posts.length + 1,
