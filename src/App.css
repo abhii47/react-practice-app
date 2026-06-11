@@ -1,3 +1,28 @@
+.main-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 16px;
+  margin: 16px;
+  border: 1px solid #e5e4e7;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  overflow: hidden;
+}
+
+.routes-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  margin: 16px;
+  border: 1px solid #e5e4e7;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  overflow: hidden;
+}
+
 .UserCard{
   border: 1px solid #e5e4e7;
   border-radius: 8px;
@@ -14,6 +39,15 @@
   box-shadow: rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 }
 
+.User-Container{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 16px;
+  margin: 16px;
+}
+
 .PostCard{
   border: 1px solid #e5e4e7;
   border-radius: 8px;
@@ -26,6 +60,105 @@
   transform: scale(1.05);
   transition: transform 0.2s ease-in-out;
   border: 1px solid beige;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+}
+
+.PostCard ul li{
+  list-style-type: none;
+  margin: 8px;
+}
+
+.Post-Container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  margin: 16px;
+  border: 1px solid #e5e4e7;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+}
+
+.post-data{
+  padding: 16px;
+  margin: 16px;
+  border: 1px solid #e5e4e7;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+}
+
+.post-data h2{
+  padding: 16px;
+  margin: 16px;
+  color: black;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  background-color:bisque;
+  border-radius: 8px;
+}
+
+
+.post-data .content{
+  padding: 16px;
+  margin: 16px;
+  font-family: 'Courier New', Courier, monospace;
+  background-color: bisque;
+  border-radius: 8px;
+}
+
+.post-data .content span{
+  padding: 16px;
+  margin: 16px;
+  color: black;
+  font-family: 'Courier New', Courier, monospace;
+  background-color:bisque;
+}
+
+.post-data .content p{
+  padding: 16px;
+  margin: 16px;
+  font-family: 'Courier New', Courier, monospace;
+  background-color: bisque;
+}
+
+.post-data .comments{
+  padding: 16px;
+  margin: 16px;
+  background-color:bisque;
+  border-radius: 8px;
+}
+
+.post-data .comments span{
+  padding: 16px;
+  margin: 16px;
+  color: black;
+  font-family: 'Courier New', Courier, monospace;
+  background-color:bisque;
+}
+
+.post-data .comments .comment{
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  font-family: 'Courier New', Courier, monospace;
+  background-color: bisque;
+}
+
+.post-data .comments .comment p{
+  padding: 16px;
+  margin: 16px;
+  font-family: 'Courier New', Courier, monospace;
+  background-color: bisque;
+}
+
+.Navbar{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 16px;
+  margin: 16px;
+  border: 1px solid #e5e4e7;
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 }
