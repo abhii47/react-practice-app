@@ -1,39 +1,26 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
-import LikeButton from './components/LikeButton'
-import { PostCard } from './components/PostCards'
-import ToggleMessage from './components/ToggleMessage'
-import UserCard from './components/UserCard'
-import { posts } from './data/posts'
-import { users } from './data/user'
 import { Post } from './pages/Post'
+import { NavBar } from './components/NavBar'
+import { User } from './pages/User'
+import { PostDetails } from './components/PostDetail'
 
 function App() {
   return (
-    <div>
-      <h1>Social App</h1>
-      <Post />
-      {users.map((user) => {
-        return (
-          <UserCard
-                key={user.id}
-                name={user.name}
-                email={user.email}
-          />
-        )
-      })}
-      {posts.map((post) => {
-        return (
-          <PostCard 
-                key={post.id}
-                title={post.title}
-                content={post.content}
-                comments={post.comments}
-          />
-        )
-      })}
-      <LikeButton />
-      <ToggleMessage />
-    </div>
+    <BrowserRouter>
+        <div className='main-container'>
+          <h1>Social App</h1>
+          {/* Navbar */}
+          <NavBar />
+
+          {/* Routes */}
+            <Routes>
+              <Route path='/posts' element={<Post />} />
+              <Route path='/users' element={<User />} />
+              <Route path='/posts/:id' element={<PostDetails />} />
+            </Routes>
+        </div>
+    </BrowserRouter>
   )
 }
 
