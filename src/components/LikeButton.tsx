@@ -1,11 +1,9 @@
-import { useState } from "react";
+type LikeButtonProps = {
+    onLike: () => void
+}
 
-export default function LikeButton() {
-    const [likes, setLikes] = useState(0);
-    const addLike = () => setLikes(likes + 1);
+export default function LikeButton({onLike}: LikeButtonProps) {
     return (
-        <button onClick={addLike}>
-            {likes} Likes
-        </button>
+        <button onClick={onLike}>Like</button>
     )
 }
