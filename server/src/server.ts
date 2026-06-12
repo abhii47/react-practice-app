@@ -6,8 +6,16 @@ dotenv.config();
 
 const app:Application = express();
 
-app.use(cors());
+app.use(cors({origin: 'http://localhost:5173'}));
 app.use(express.json());
+
+import userRoute from "./routes/userRoute";
+import postRoute from "./routes/postRoute";
+import commentRoute from "./routes/commentRoute";
+
+app.use('/api/users', userRoute);
+app.use('/api/posts', postRoute);
+app.use('/api/comments', commentRoute);
 
 app.get("/", (req:Request, res:Response) => {
     res.send("social-app running");
