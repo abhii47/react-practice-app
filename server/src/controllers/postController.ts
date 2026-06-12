@@ -3,8 +3,8 @@ import Post from "../models/posts";
 
 const createPost = async(req:Request, res:Response) => {
     try {
-        const { title, description, creator } = req.body;
-        const post = await Post.create({ title, content:description, creator });
+        const { title, content, creator } = req.body;
+        const post = await Post.create({ title, content, creator });
         res.status(201).json({message: "Post created successfully", post});
     } catch (err:any) {
         res.status(500).json({message: err.message});
