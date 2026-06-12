@@ -1,66 +1,83 @@
 import { useEffect, useState } from "react"
-import { posts as intialPosts } from "../data/posts"
 import { PostCard } from "../components/PostCards";
 import LikeButton from "../components/LikeButton";
 import { Link } from "react-router-dom";
 import { AddPostForm } from "../components/Forms/AddPostForm";
 import { SearchBox } from "../components/Forms/SearchBox";
 
+type Post = {
+    _id:string
+    title:string
+    content:string
+    comments:string[]
+    likes:number
+}
+
 export const Post = () => {
-    const [allPosts, setAllPosts] = useState(intialPosts.map(post => ({...post, likes: 0})));
-    const [posts, setposts] = useState(allPosts);
-    const [loading, setloading] = useState(true);
+    const [posts, setPosts] = useState<Post[]>([]);
+    const [allPosts, setAllPosts] = useState<Post[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        setTimeout(() => {
-            const loadedPosts = intialPosts.map(post => ({...post, likes: 0}))
-            setAllPosts(loadedPosts);
-            setposts(loadedPosts);
-            setloading(false);
-        },1000)
+        const fetchPosts = async () => {
+            try {
+                const res = await fetch("http://localhost:5000/api/posts");
+                const data = await res.json();
+                setPosts(data.posts);
+                setAllPosts(data.posts);
+            } catch (err:any) {
+                console.error("Failed to fetch: ", err)
+            } finally{
+                setLoading(false);
+            }
+        }
+        fetchPosts();
     }, []);
 
-    if(loading) {
-        return <h2>Loading posts...</h2>
-    }
+    if(loading) return <h2>Loading posts...</h2>;
+    if(posts.length === 0)  return <h2>No posts</h2>;
 
-    if(posts.length === 0){
-        return <h2>No posts</h2>
-    }
-
-    const handleAddPost = (title:string, content:string) => {
-        const newPost = {
-            id: allPosts.length + 1,
-            title,
-            content,
-            comments: [],
-            likes: 0
+    const handleAddPost = async(title:string, content:string) => {
+        try {
+            console.log(`title: ${title} content: ${content} added`);
+            const res = await fetch("http://localhost:5000/api/posts", {
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                body: JSON.stringify({title, content, creator:"6a2bd62e32e49f32875600e7"})
+            });
+            const data = await res.json();
+            if(res.ok){
+                const updated = [...posts, data.post]
+                setPosts(updated);
+                setAllPosts(updated);
+            }else{
+                console.error("Failed to add post: ", data.message)
+            }
+        } catch (err:any) {
+            console.error("Failed to add post: ", err)
         }
-        const updated = [...allPosts, newPost]
-        setAllPosts(updated)
-        setposts(updated)
     }
 
     const handleSearch = (term:string) => {
         if(!term){
-            setposts(allPosts) // reset if empty
+            setPosts(allPosts) // reset if empty
         } else {
             const filtered = allPosts.filter(post =>
                 post.title.toLowerCase().includes(term.toLowerCase()) ||
                 post.content.toLowerCase().includes(term.toLowerCase())
             )
-            setposts(filtered)
+            setPosts(filtered)
         }
     }
-    const handleLikePost = (id:number) => {
-        const updated = allPosts.map(post => post.id === id ? {...post, likes: post.likes + 1 } : post)
-        setAllPosts(updated)
-        setposts(updated)    
+    const handleLikePost = (id:string) => {
+        const updated = posts.map(post => post._id === id ? {...post, likes: post.likes + 1 } : post)
+        setPosts(updated);
+        setAllPosts(updated);    
     }
-    const handleDeletePost = (id:number) => {
-        const updated = allPosts.filter(post => post.id !== id)
-        setAllPosts(updated)
-        setposts(updated)
+    const handleDeletePost = (id:string) => {
+        const updated = posts.filter(post => post._id !== id)
+        setPosts(updated)
+        setAllPosts(updated);
     }
     return (
         <div className="Post-Container">
@@ -68,18 +85,18 @@ export const Post = () => {
             <AddPostForm onAddPost={handleAddPost} />
             {posts.map((post) => {
                 return (
-                    <div key={post.id}>
+                    <div key={post._id}>
                         <PostCard 
                             title={post.title} 
                             content={post.content}
                             likes={post.likes} 
                         />
-                        <button onClick={() => handleDeletePost(post.id)}>Delete</button>
+                        <button onClick={() => handleDeletePost(post._id)}>Delete</button>
                         <LikeButton 
-                            onLike={() => handleLikePost(post.id)}
+                            onLike={() => handleLikePost(post._id)}
                         />  
                         <button>
-                            <Link to={`/posts/${post.id}`}>Details</Link>
+                            <Link to={`/posts/${post._id}`}>Details</Link>
                         </button>
                     </div>
                 )

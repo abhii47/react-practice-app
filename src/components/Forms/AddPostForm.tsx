@@ -4,7 +4,7 @@ export const AddPostForm = ({ onAddPost }:{ onAddPost: (title: string, content: 
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
 
-    const handleForm = (e: React.ChangeEvent) => {
+    const handleForm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if(!title || !content) return
         onAddPost(title, content)
