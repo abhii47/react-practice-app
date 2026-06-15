@@ -4,6 +4,7 @@ import { Post } from './pages/Post'
 import { NavBar } from './components/NavBar'
 import { User } from './pages/User'
 import { PostDetails } from './components/PostDetail'
+import { AddCommentForm } from './components/Forms/AddCommentForm'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
               <Route path='/posts' element={<Post />} />
               <Route path='/users' element={<User />} />
               <Route path='/posts/:id' element={<PostDetails />} />
+              <Route path='/add-comment/:id' element={<AddCommentForm />} />
             </Routes>
         </div>
     </BrowserRouter>
