@@ -4,6 +4,7 @@ import LikeButton from "../components/LikeButton";
 import { Link } from "react-router-dom";
 import { AddPostForm } from "../components/Forms/AddPostForm";
 import { SearchBox } from "../components/Forms/SearchBox";
+import { createPost, deletePost, getAllPosts } from "../api/postApi";
 
 type Post = {
     _id:string
@@ -21,10 +22,11 @@ export const Post = () => {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const res = await fetch("http://localhost:5000/api/posts");
-                const data = await res.json();
-                setPosts(data.posts);
-                setAllPosts(data.posts);
+                const data = await getAllPosts();
+                if(data){
+                    setPosts(data.posts);
+                    setAllPosts(data.posts);
+                }
             } catch (err:any) {
                 console.error("Failed to fetch: ", err)
             } finally{
@@ -39,14 +41,8 @@ export const Post = () => {
 
     const handleAddPost = async(title:string, content:string) => {
         try {
-            console.log(`title: ${title} content: ${content} added`);
-            const res = await fetch("http://localhost:5000/api/posts", {
-                method:"POST",
-                headers:{"Content-Type":"application/json"},
-                body: JSON.stringify({title, content, creator:"6a2bd62e32e49f32875600e7"})
-            });
-            const data = await res.json();
-            if(res.ok){
+            const data = await createPost(title, content, "6a2bd62e32e49f32875600e7");
+            if(data){
                 const updated = [...posts, data.post]
                 setPosts(updated);
                 setAllPosts(updated);
@@ -74,10 +70,19 @@ export const Post = () => {
         setPosts(updated);
         setAllPosts(updated);    
     }
-    const handleDeletePost = (id:string) => {
-        const updated = posts.filter(post => post._id !== id)
-        setPosts(updated)
-        setAllPosts(updated);
+    const handleDeletePost = async(id:string) => {
+        try {
+            const data = await deletePost(id);
+            if(data){
+                const updated = posts.filter(post => post._id !== id);
+                setPosts(updated);
+                setAllPosts(updated);
+            }else{
+                console.error("Failed to delete post")
+            }
+        } catch (err:any) {
+            console.error("Failed to delete post: ", err)
+        }
     }
     return (
         <div className="Post-Container">

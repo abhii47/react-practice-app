@@ -20,6 +20,16 @@ const getPosts = async(req:Request, res:Response) => {
     }
 }
 
+const getPost = async(req:Request, res:Response) => {
+    try {
+        const { id } = req.params;
+        const post = await Post.findById(id).populate('comments',"message");
+        res.status(200).json({message: "Post fetched successfully", post});
+    } catch (err:any) {
+        res.status(500).json({message: err.message});
+    }
+}
+
 const deletePost = async(req:Request, res:Response) => {
     try {
         const post = await Post.findByIdAndDelete(req.params.id);
@@ -32,5 +42,6 @@ const deletePost = async(req:Request, res:Response) => {
 export default {
     createPost,
     getPosts,
+    getPost,
     deletePost
 }
