@@ -35,9 +35,9 @@ export const User = () => {
     if(users.length === 0){
         return <h2>No Users</h2>
     }
-    const handleUser = (id:string) => {
+    const handleUser = async(id:string) => {
         try {
-            const data = deleteUser(id);
+            const data = await deleteUser(id);
             if(data){
                 const updated = users.filter(user => user._id !== id);
                 setUsers(updated);

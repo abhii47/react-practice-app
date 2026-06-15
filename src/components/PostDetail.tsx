@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
+import { getPost } from "../api/postApi"
 
 type comment = {
     _id:string
@@ -20,8 +21,7 @@ export const PostDetails = () => {
     useEffect(()=> {
         const fetchPost = async() => {
             try {
-                const res = await fetch(`http://localhost:5000/api/posts/${id}`)
-                const data = await res.json();
+                const data = await getPost(id!);
                 setPost(data.post);
             } catch (err:any) {
                 console.error("Failed to fetch post: ", err)
@@ -32,15 +32,7 @@ export const PostDetails = () => {
         fetchPost();
     },[]);
 
-    // const handleAddComment = async() => {
-    //     try {
-    //         console.log("Comment added");
-    //     } catch (err:any) {
-    //         console.error("Failed to add comment: ", err)
-    //     }
-    // }
-
-    if(loading) return <h2>Loading posts...</h2>;
+    if(loading) return <h2>Loading posts...</h2>
     if(!post) return <h2>Post Not Found</h2>
     return(
         <div className="post-data">

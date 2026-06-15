@@ -7,7 +7,7 @@ export const AddCommentForm = () => {
     const [message, setMessage] = useState("")
     const handleComment = async (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if(!message) return
+        if(!message || !id) return
         const res = await addComment(message, id,"6a2bd79532e49f32875600e9");
         console.log(res.message);
         setMessage("");
